@@ -1,3 +1,10 @@
+/*Added concepts :
+JSX
+Components
+Prop
+States
+Rendering
+*/
 import "./App.css";
 import { useState } from "react";
 import Section from "./components/Section";
