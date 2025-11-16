@@ -1,23 +1,9 @@
-/*Added concepts :
-JSX
-Components
-Prop
-States
-Rendering
-*/
 import "./App.css";
 import { useState, useRef } from "react";
 import Section from "./components/Section";
 import SummaryStat from "./components/SummaryStat";
 
 function App() {
-  /*
-  const [meals, setMeals] = useState([
-    { id: 1, name: "Oats", calories: 250 },
-    { id: 2, name: "Eggs", calories: 300 },
-  ]);
-  */
-
   const [meals, setMeals] = useState([]);
 
   const [workouts, setWorkouts] = useState([]);
@@ -104,6 +90,18 @@ function App() {
     todoName.current.value = "";
   };
 
+  const handleDeleteWorkout = (id) => {
+    setWorkouts(workouts.filter((w) => w.id !== id));
+  };
+
+  const handleDeleteMeals = (id) => {
+    setMeals(meals.filter((m) => m.id !== id));
+  };
+
+  const handleDeleteTodos = (id) => {
+    setWorkouts(todos.filter((t) => t.id !== id));
+  };
+
   return (
     <div
       style={{ maxWidth: 900, margin: "24px auto", fontFamily: "sans-serif" }}
@@ -123,6 +121,12 @@ function App() {
           {meals.map((m) => (
             <li key={m.id}>
               {m.name} — {m.calories} kcal
+              <button
+                onClick={() => handleDeleteMeals(m.id)}
+                style={{ marginLeft: 8 }}
+              >
+                Remove
+              </button>
             </li>
           ))}
         </ul>
@@ -149,6 +153,12 @@ function App() {
           {workouts.map((w) => (
             <li key={w.id}>
               {w.name} — {w.minutes} min
+              <button
+                onClick={() => handleDeleteWorkout(w.id)}
+                style={{ marginLeft: 8 }}
+              >
+                Remove
+              </button>
             </li>
           ))}
         </ul>
@@ -172,7 +182,15 @@ function App() {
       <Section title="Todos">
         <ul>
           {todos.map((t) => (
-            <li key={t.id}>{t.text}</li>
+            <li key={t.id}>
+              {t.text}
+              <button
+                onClick={() => handleDeleteTodos(t.id)}
+                style={{ marginLeft: 8 }}
+              >
+                Remove
+              </button>
+            </li>
           ))}
         </ul>
 
