@@ -118,17 +118,25 @@ function App() {
 
       <Section title="Meals">
         <ul>
-          {meals.map((m) => (
-            <li key={m.id}>
-              {m.name} — {m.calories} kcal
-              <button
-                onClick={() => handleDeleteMeals(m.id)}
-                style={{ marginLeft: 8 }}
-              >
-                Remove
-              </button>
-            </li>
-          ))}
+          {meals.length === 0 ? (
+            <>
+              <p>No items yet. Add your first one!</p>
+            </>
+          ) : (
+            <>
+              {meals.map((m) => (
+                <li key={m.id}>
+                  {m.name} — {m.calories} kcal
+                  <button
+                    onClick={() => handleDeleteMeals(m.id)}
+                    style={{ marginLeft: 8 }}
+                  >
+                    Remove
+                  </button>
+                </li>
+              ))}
+            </>
+          )}
         </ul>
 
         <input
@@ -150,17 +158,25 @@ function App() {
 
       <Section title="Workouts">
         <ul>
-          {workouts.map((w) => (
-            <li key={w.id}>
-              {w.name} — {w.minutes} min
-              <button
-                onClick={() => handleDeleteWorkout(w.id)}
-                style={{ marginLeft: 8 }}
-              >
-                Remove
-              </button>
-            </li>
-          ))}
+          {workouts.length === 0 ? (
+            <>
+              <p>No workouts items yet. Add your first one!</p>
+            </>
+          ) : (
+            <>
+              {workouts.map((w) => (
+                <li key={w.id}>
+                  {w.name} — {w.minutes} min
+                  <button
+                    onClick={() => handleDeleteWorkout(w.id)}
+                    style={{ marginLeft: 8 }}
+                  >
+                    Remove
+                  </button>
+                </li>
+              ))}
+            </>
+          )}
         </ul>
         <input
           type="text"
@@ -181,17 +197,25 @@ function App() {
 
       <Section title="Todos">
         <ul>
-          {todos.map((t) => (
-            <li key={t.id}>
-              {t.text}
-              <button
-                onClick={() => handleDeleteTodos(t.id)}
-                style={{ marginLeft: 8 }}
-              >
-                Remove
-              </button>
-            </li>
-          ))}
+          {todos.length === 0 ? (
+            <>
+              <p>All tasks done 🎉</p>
+            </>
+          ) : (
+            <>
+              {todos.map((t) => (
+                <li key={t.id}>
+                  {t.text}
+                  <button
+                    onClick={() => handleDeleteTodos(t.id)}
+                    style={{ marginLeft: 8 }}
+                  >
+                    Remove
+                  </button>
+                </li>
+              ))}
+            </>
+          )}
         </ul>
 
         <input
