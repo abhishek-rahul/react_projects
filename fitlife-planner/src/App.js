@@ -6,15 +6,19 @@ States
 Rendering
 */
 import "./App.css";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Section from "./components/Section";
 import SummaryStat from "./components/SummaryStat";
 
 function App() {
+  /*
   const [meals, setMeals] = useState([
     { id: 1, name: "Oats", calories: 250 },
     { id: 2, name: "Eggs", calories: 300 },
   ]);
+  */
+
+  const [meals, setMeals] = useState([]);
 
   const [workouts, setWorkouts] = useState([
     { id: 1, name: "Cardio", minutes: 30 },
@@ -26,6 +30,34 @@ function App() {
   const totalCalories = meals.reduce((s, m) => s + m.calories, 0);
   const totalWorkoutMin = workouts.reduce((s, w) => s + w.minutes, 0);
   const pendingTodos = todos.filter((t) => !t.done).length;
+
+  let tempName = useRef("");
+  let tempCalories = useRef("");
+
+  const handleNameChange = (e) => {
+    tempName.current.value = e.target.value; // do NOT update state
+  };
+
+  const handleCaloriesChange = (e) => {
+    tempCalories.current.value = Number(e.target.value); // do NOT update state
+  };
+
+  const handleMeals = () => {
+    const nameValue = tempName.current.value;
+    const caloriesValue = Number(tempCalories.current.value);
+    // Add pair to list
+    setMeals([
+      ...meals,
+      {
+        id: Date.now(),
+        name: nameValue,
+        calories: caloriesValue,
+      },
+    ]);
+    // CLEAR INPUT BOXES after clicking Add
+    tempName.current.value = "";
+    tempCalories.current.value = "";
+  };
 
   return (
     <div
@@ -49,6 +81,22 @@ function App() {
             </li>
           ))}
         </ul>
+
+        <input
+          type="text"
+          placeholder="Enter name"
+          ref={tempName}
+          onChange={handleNameChange}
+        />
+
+        <input
+          type="number"
+          placeholder="Enter Calories"
+          ref={tempCalories}
+          onChange={handleCaloriesChange}
+        />
+
+        <button onClick={handleMeals}>Quick Add</button>
       </Section>
 
       <Section title="Workouts">
@@ -59,6 +107,21 @@ function App() {
             </li>
           ))}
         </ul>
+        <input
+          type="text"
+          placeholder="Enter name"
+          ref={tempWorkoutName}
+          onChange={handleWorkoutNameChange}
+        />
+
+        <input
+          type="number"
+          placeholder="Enter Calories"
+          ref={tempCalories}
+          onChange={handleCaloriesChange}
+        />
+
+        <button onClick={handleMeals}>Quick Add</button>
       </Section>
 
       <Section title="Todos">
