@@ -20,12 +20,8 @@ function App() {
 
   const [meals, setMeals] = useState([]);
 
-  const [workouts, setWorkouts] = useState([
-    { id: 1, name: "Cardio", minutes: 30 },
-  ]);
-  const [todos, setTodos] = useState([
-    { id: 1, text: "Buy spinach", done: false },
-  ]);
+  const [workouts, setWorkouts] = useState([]);
+  const [todos, setTodos] = useState([]);
 
   const totalCalories = meals.reduce((s, m) => s + m.calories, 0);
   const totalWorkoutMin = workouts.reduce((s, w) => s + w.minutes, 0);
@@ -33,6 +29,11 @@ function App() {
 
   let tempName = useRef("");
   let tempCalories = useRef("");
+
+  let workName = useRef("");
+  let workTime = useRef("");
+
+  let todoName = useRef("");
 
   const handleNameChange = (e) => {
     tempName.current.value = e.target.value; // do NOT update state
@@ -57,6 +58,50 @@ function App() {
     // CLEAR INPUT BOXES after clicking Add
     tempName.current.value = "";
     tempCalories.current.value = "";
+  };
+
+  const handleWorkNameChange = (e) => {
+    workName.current.value = e.target.value; // do NOT update state
+  };
+
+  const handleWorkTimeChange = (e) => {
+    workTime.current.value = Number(e.target.value); // do NOT update state
+  };
+
+  const handleWorkout = () => {
+    const workNameValue = workName.current.value;
+    const workTimeValue = Number(workTime.current.value);
+    // Add pair to list
+    setWorkouts([
+      ...workouts,
+      {
+        id: Date.now(),
+        name: workNameValue,
+        minutes: workTimeValue,
+      },
+    ]);
+    // CLEAR INPUT BOXES after clicking Add
+    workName.current.value = "";
+    workTime.current.value = "";
+  };
+
+  const handleTodoNameChange = (e) => {
+    todoName.current.value = e.target.value; // do NOT update state
+  };
+
+  const handleTodos = () => {
+    const todoNameValue = todoName.current.value;
+    // Add pair to list
+    setTodos([
+      ...todos,
+      {
+        id: Date.now(),
+        text: todoNameValue,
+        done: false,
+      },
+    ]);
+    // CLEAR INPUT BOXES after clicking Add
+    todoName.current.value = "";
   };
 
   return (
@@ -109,19 +154,19 @@ function App() {
         </ul>
         <input
           type="text"
-          placeholder="Enter name"
-          ref={tempWorkoutName}
-          onChange={handleWorkoutNameChange}
+          placeholder="Enter workout name"
+          ref={workName}
+          onChange={handleWorkNameChange}
         />
 
         <input
           type="number"
-          placeholder="Enter Calories"
-          ref={tempCalories}
-          onChange={handleCaloriesChange}
+          placeholder="Enter workout time"
+          ref={workTime}
+          onChange={handleWorkTimeChange}
         />
 
-        <button onClick={handleMeals}>Quick Add</button>
+        <button onClick={handleWorkout}>Quick Add</button>
       </Section>
 
       <Section title="Todos">
@@ -130,6 +175,15 @@ function App() {
             <li key={t.id}>{t.text}</li>
           ))}
         </ul>
+
+        <input
+          type="text"
+          placeholder="Enter todos"
+          ref={todoName}
+          onChange={handleTodoNameChange}
+        />
+
+        <button onClick={handleTodos}>Quick Add</button>
       </Section>
     </div>
   );
