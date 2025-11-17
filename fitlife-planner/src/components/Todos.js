@@ -37,6 +37,9 @@ function Todos() {
     todoName.current.value = "";
   };
 
+  const toggleDone = (id) => {
+    setTodos(todos.map((t) => (t.id === id ? { ...t, done: !t.done } : t)));
+  };
   const handleDeleteTodos = (id) => {
     setTodos(todos.filter((t) => t.id !== id));
   };
@@ -59,6 +62,11 @@ function Todos() {
                 >
                   Remove
                 </button>
+                <input
+                  type="checkbox"
+                  checked={t.done}
+                  onChange={() => toggleDone(t.id)}
+                />
               </li>
             ))}
           </>
