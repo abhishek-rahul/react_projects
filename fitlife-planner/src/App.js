@@ -1,7 +1,5 @@
 import "./App.css";
 import { useState, useRef, useEffect } from "react";
-import Section from "./components/Section";
-import SummaryStat from "./components/SummaryStat";
 
 import Meals from "./components/Meals";
 
@@ -9,6 +7,7 @@ import { SummaryContext } from "./features/summary/SummaryContext";
 import HeaderSummary from "./components/HeaderSummary"; // new
 import Workouts from "./components/Workouts";
 import Todos from "./components/Todos";
+import TodaysSummary from "./components/TodaysSummary";
 
 function App() {
   const [totalCalories, setTotalCalories] = useState(0);
@@ -30,17 +29,8 @@ function App() {
         style={{ maxWidth: 900, margin: "24px auto", fontFamily: "sans-serif" }}
       >
         <h1>FitLife Planner</h1>
-
         <HeaderSummary />
-
-        <Section title="Today’s Summary">
-          <div style={{ display: "flex", gap: 8 }}>
-            <SummaryStat label="Calories" value={totalCalories} />
-            <SummaryStat label="Workout (min)" value={totalWorkoutMin} />
-            <SummaryStat label="Todos Pending" value={pendingTodos} />
-          </div>
-        </Section>
-
+        <TodaysSummary />
         <Meals />
         <Workouts />
         <Todos />
