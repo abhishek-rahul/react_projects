@@ -1,13 +1,41 @@
 import "./App.css";
-import { useState, useRef } from "react";
+import { useState, useRef ,useEffect } from "react";
 import Section from "./components/Section";
 import SummaryStat from "./components/SummaryStat";
 
-function App() {
-  const [meals, setMeals] = useState([]);
+import { SummaryContext } from "./features/summary/SummaryContext";
+import HeaderSummary from "./components/HeaderSummary"; // new
 
-  const [workouts, setWorkouts] = useState([]);
-  const [todos, setTodos] = useState([]);
+function App() {
+  const [meals, setMeals] = useState(() => {
+    const saved = localStorage.getItem("meals");
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  const [workouts, setWorkouts] = useState(() => {
+    const saved = localStorage.getItem("workouts");
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  const [todos, setTodos] = useState(() => {
+    const saved = localStorage.getItem("todos");
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  // Write meals to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem("meals", JSON.stringify(meals));
+  }, [meals]);
+
+  // Write workouts to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem("workouts", JSON.stringify(workouts));
+  }, [workouts]);
+
+  // Write todos to localStorage whenever they change
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos]);
 
   const totalCalories = meals.reduce((s, m) => s + m.calories, 0);
   const totalWorkoutMin = workouts.reduce((s, w) => s + w.minutes, 0);
@@ -103,10 +131,16 @@ function App() {
   };
 
   return (
+
+  <SummaryContext.Provider
+    value={{ totalCalories, totalWorkoutMin, pendingTodos }}
+  >
     <div
       style={{ maxWidth: 900, margin: "24px auto", fontFamily: "sans-serif" }}
     >
       <h1>FitLife Planner</h1>
+
+      <HeaderSummary />
 
       <Section title="Today’s Summary">
         <div style={{ display: "flex", gap: 8 }}>
@@ -228,6 +262,7 @@ function App() {
         <button onClick={handleTodos}>Quick Add</button>
       </Section>
     </div>
+    </SummaryContext.Provider>
   );
 }
 
