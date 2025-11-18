@@ -9,6 +9,10 @@ import Workouts from "./components/Workouts";
 import Todos from "./components/Todos";
 import TodaysSummary from "./components/TodaysSummary";
 
+import { lazy, Suspense } from "react";
+
+const WeeklyCharts = lazy(() => import("./features/charts/WeeklyCharts"));
+
 function App() {
   const [totalCalories, setTotalCalories] = useState(0);
   const [totalWorkoutMin, setTotalWorkoutMin] = useState(0);
@@ -34,6 +38,9 @@ function App() {
         <Meals />
         <Workouts />
         <Todos />
+        <Suspense fallback={<div>Loading charts…</div>}>
+          <WeeklyCharts calories={totalCalories} workouts={totalWorkoutMin} />
+        </Suspense>
       </div>
     </SummaryContext.Provider>
   );
