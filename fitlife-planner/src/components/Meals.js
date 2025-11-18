@@ -1,13 +1,20 @@
 import { useSummary } from "../features/summary/SummaryContext";
 import { useState, useRef, useEffect } from "react";
 import Section from "./Section";
+import AddMealModal from "./AddMealModal";
 function Meals() {
   const { totalCalories, setTotalCalories } = useSummary();
+
+  const [isMealModalOpen, setIsMealModalOpen] = useState(false);
 
   const [meals, setMeals] = useState(() => {
     const saved = localStorage.getItem("meals");
     return saved ? JSON.parse(saved) : [];
   });
+
+  const handleAddMealFromModal = (meal) => {
+    setMeals((prev) => [...prev, meal]);
+  };
 
   // Write meals to localStorage whenever it changes
   useEffect(() => {
@@ -73,6 +80,7 @@ function Meals() {
         )}
       </ul>
 
+      {/* Existing quick add inputs */}
       <input
         type="text"
         placeholder="Enter name"
@@ -88,6 +96,22 @@ function Meals() {
       />
 
       <button onClick={handleMeals}>Quick Add</button>
+
+      {/* New button to open portal modal */}
+      <button
+        style={{ marginLeft: 8 }}
+        onClick={() => setIsMealModalOpen(true)}
+      >
+        Add Meal (advanced)
+      </button>
+
+      {/* Modal via Portal */}
+      {isMealModalOpen && (
+        <AddMealModal
+          onClose={() => setIsMealModalOpen(false)}
+          onAddMeal={handleAddMealFromModal}
+        />
+      )}
     </Section>
   );
 }
