@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import Section from "./Section";
 import AddMealModal from "./AddMealModal";
 function Meals() {
-  const { totalCalories, setTotalCalories } = useSummary();
+  const { setTotalCalories } = useSummary();
 
   const [isMealModalOpen, setIsMealModalOpen] = useState(false);
 
